@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -6,32 +7,20 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  username: String = '';
-  password: String = '';
+  username: string = '';
+  password: string = '';
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
-  async loginWithUsernameAndPassword() {
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-
-    var raw = JSON.stringify({
-      username: this.username,
-      password: 'Test123',
-    });
-
-    const requestOptions: RequestInit = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
-
+  async login() {
     try {
-      const resp = await fetch('http://127.0.0.1:8000/login/', requestOptions);
-      const json = await resp.json();
-      localStorage.setItem('token', json.token);
-      console.log('Token set:', json.token);
+      const resp = await this.authService.loginWithUsernameAndPassword(
+        this.username,
+        this.password
+      );
+
+      // localStorage.setItem('token', json.token);
+      console.log(resp);
     } catch (err) {
       console.error(err);
     }
