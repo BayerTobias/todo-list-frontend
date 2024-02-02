@@ -15,4 +15,10 @@ export class AuthService {
 
     return lastValueFrom(this.http.post(url, body));
   }
+
+  async getAllTodos() {
+    const url = environment.baseUrl + '/todos/';
+
+    return lastValueFrom(this.http.get(url));
+  }
 }

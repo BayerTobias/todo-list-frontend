@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -10,17 +11,18 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   async login() {
     try {
-      const resp = await this.authService.loginWithUsernameAndPassword(
+      const resp: any = await this.authService.loginWithUsernameAndPassword(
         this.username,
         this.password
       );
 
-      // localStorage.setItem('token', json.token);
+      localStorage.setItem('token', resp['token']);
       console.log(resp);
+      this.router.navigateByUrl('/todos');
     } catch (err) {
       console.error(err);
     }
