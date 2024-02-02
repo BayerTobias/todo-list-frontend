@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -18,7 +18,12 @@ export class AuthService {
 
   async getAllTodos() {
     const url = environment.baseUrl + '/todos/';
+    let headers = new HttpHeaders();
+    headers = headers.set(
+      'Authorization',
+      'Token ' + localStorage.getItem('token')
+    );
 
-    return lastValueFrom(this.http.get(url));
+    return lastValueFrom(this.http.get(url, { headers: headers }));
   }
 }

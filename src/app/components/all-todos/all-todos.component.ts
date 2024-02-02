@@ -12,8 +12,11 @@ export class AllTodosComponent {
   constructor(private authService: AuthService) {}
 
   async ngOnInit() {
-    this.allTodos = await this.authService.getAllTodos();
-
-    console.log(this.allTodos);
+    try {
+      this.allTodos = await this.authService.getAllTodos();
+      console.log(this.allTodos);
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
